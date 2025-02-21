@@ -5,16 +5,14 @@ import java.net.http.HttpResponse;
 
 public class Webhook {
     public static void main(String[] args) {
-        // String prompt = System.getenv("LLM_PROMPT");
-        // String llmResult = useLLM(prompt);
-        // System.out.println("llmResult = " + llmResult);
-        // String template = System.getenv("TOGETHER_IMAGE_TEMPLATE");
-        // String title = System.getenv("SLACK_WEBHOOK_TITLE");
-        // String llmImageResult = useLLMForImage(template.formatted(llmResult));
-        // System.out.println("llmImageResult = " + llmImageResult);
-        // sendSlackMessage(title, llmResult, llmImageResult);
-        String a = System.getenv("LLM_PROMPT");
-        sendSlackMessage1(a);
+        String prompt = System.getenv("LLM_PROMPT");
+        String llmResult = useLLM(prompt);
+        System.out.println("llmResult = " + llmResult);
+        String template = System.getenv("TOGETHER_IMAGE_TEMPLATE");
+        String title = System.getenv("SLACK_WEBHOOK_TITLE");
+        String llmImageResult = useLLMForImage(template.formatted(llmResult));
+        System.out.println("llmImageResult = " + llmImageResult);
+        sendSlackMessage(title, llmResult, llmImageResult);
     }
 
     public static String useLLMForImage(String prompt) {
@@ -115,24 +113,4 @@ public class Webhook {
             throw new RuntimeException(e);
         }
     }
-    public static void sendSlackMessage1(String text) {
-        String slackUrl = System.getenv("SLACK_WEBHOOK_URL");
-        String payload = "{\"text\": \"" + text + "\"}"; // JSON 형식으로 래핑
-        HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(slackUrl)) 
-                .header("Content-Type", "application/json")
-                .POST(HttpRequest.BodyPublishers.ofString(payload))
-                .build(); 
-
-        try {
-            HttpResponse<String> response = client.send(request,
-                    HttpResponse.BodyHandlers.ofString());
-            System.out.println("response.statusCode() = " + response.statusCode());
-            System.out.println("response.body() = " + response.body());
-        } catch (Exception e) { 
-            throw new RuntimeException(e);
-        }
-    }
-
 }
