@@ -37,7 +37,7 @@ public class Webhook {
                 .POST(HttpRequest.BodyPublishers.ofString(payload))
                 .build();
         String result = null;
-        try {
+        try { 
             HttpResponse<String> response = client.send(request,
                     HttpResponse.BodyHandlers.ofString());
             System.out.println("response.statusCode() = " + response.statusCode());
@@ -45,10 +45,10 @@ public class Webhook {
             result = response.body()
                     .split("url\": \"")[1]
                     .split("\",")[0];
-        } catch (Exception e) {
+        } catch (Exception e) { 
             throw new RuntimeException(e);
         }
-        return result;
+        return result; 
     }
 
     public static String useLLM(String prompt) {
@@ -66,7 +66,7 @@ public class Webhook {
                   "model": "%s"
                 }
                 """.formatted(prompt, model);
-        HttpClient client = HttpClient.newHttpClient();
+        HttpClient client = HttpClient.newHttpClient(); 
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(apiUrl)) 
                 .header("Content-Type", "application/json")
@@ -74,22 +74,22 @@ public class Webhook {
                 .POST(HttpRequest.BodyPublishers.ofString(payload))
                 .build(); 
         String result = null; 
-        try {
+        try { 
             HttpResponse<String> response = client.send(request,
                     HttpResponse.BodyHandlers.ofString());
             System.out.println("response.statusCode() = " + response.statusCode());
             System.out.println("response.body() = " + response.body());
             result = response.body()
                     .split("\"content\":\"")[1]
-                    .split("\"},\"logprobs\"")[0];
-        } catch (Exception e) {
+                    .split("\"},\"logprobs\"")[0]; 
+        } catch (Exception e) { 
             throw new RuntimeException(e);
         }
-        return result;
+        return result; 
     }
 
     public static void sendSlackMessage(String title, String text, String imageUrl) {
-        String slackUrl = System.getenv("SLACK_WEBHOOK_URL");
+        String slackUrl = System.getenv("SLACK_WEBHOOK_URL"); // 환경변수로 관리
         String payload = """
                     {"attachments": [{
                         "title": "%s",
@@ -97,19 +97,19 @@ public class Webhook {
                         "image_url": "%s"
                     }]}
                 """.formatted(title, text, imageUrl);
-        HttpClient client = HttpClient.newHttpClient();
+        HttpClient client = HttpClient.newHttpClient(); // 새롭게 요청할 클라이언트 생성
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(slackUrl)) 
+                .uri(URI.create(slackUrl)) // URL을 통해서 어디로 요청을 보내는지 결정
                 .header("Content-Type", "application/json")
                 .POST(HttpRequest.BodyPublishers.ofString(payload))
-                .build(); 
+                .build(); // 핵심
 
-        try {
+        try { // try
             HttpResponse<String> response = client.send(request,
                     HttpResponse.BodyHandlers.ofString());
             System.out.println("response.statusCode() = " + response.statusCode());
             System.out.println("response.body() = " + response.body());
-        } catch (Exception e) { 
+        } catch (Exception e) { // catch exception e
             throw new RuntimeException(e);
         }
     }
