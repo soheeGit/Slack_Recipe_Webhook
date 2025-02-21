@@ -5,14 +5,16 @@ import java.net.http.HttpResponse;
 
 public class Webhook {
     public static void main(String[] args) {
-        String prompt = System.getenv("LLM_PROMPT");
-        String llmResult = useLLM(prompt);
-        System.out.println("llmResult = " + llmResult);
-        String template = System.getenv("TOGETHER_IMAGE_TEMPLATE");
-        String title = System.getenv("SLACK_WEBHOOK_TITLE");
-        String llmImageResult = useLLMForImage(template.formatted(llmResult));
-        System.out.println("llmImageResult = " + llmImageResult);
-        sendSlackMessage(title, llmResult, llmImageResult);
+        // String prompt = System.getenv("LLM_PROMPT");
+        // String llmResult = useLLM(prompt);
+        // System.out.println("llmResult = " + llmResult);
+        // String template = System.getenv("TOGETHER_IMAGE_TEMPLATE");
+        // String title = System.getenv("SLACK_WEBHOOK_TITLE");
+        // String llmImageResult = useLLMForImage(template.formatted(llmResult));
+        // System.out.println("llmImageResult = " + llmImageResult);
+        // sendSlackMessage(title, llmResult, llmImageResult);
+        String a = System.getenv("LLM_PROMPT");
+        sendSlackMessage1(a)
     }
 
     public static String useLLMForImage(String prompt) {
@@ -112,5 +114,15 @@ public class Webhook {
         } catch (Exception e) { 
             throw new RuntimeException(e);
         }
+    }
+    public static void sendSlackMessage1(String text) {
+        String slackUrl = System.getenv("SLACK_WEBHOOK_URL");
+        String payload = text;
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(slackUrl)) 
+                .header("Content-Type", "application/json")
+                .POST(HttpRequest.BodyPublishers.ofString(payload))
+                .build(); 
     }
 }
