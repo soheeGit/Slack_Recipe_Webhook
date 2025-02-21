@@ -117,13 +117,14 @@ public class Webhook {
     }
     public static void sendSlackMessage1(String text) {
         String slackUrl = System.getenv("SLACK_WEBHOOK_URL");
-        String payload = text;
+        String payload = "{\"text\": \"" + text + "\"}"; // JSON 형식으로 래핑
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(slackUrl)) 
                 .header("Content-Type", "application/json")
                 .POST(HttpRequest.BodyPublishers.ofString(payload))
                 .build(); 
+
         try {
             HttpResponse<String> response = client.send(request,
                     HttpResponse.BodyHandlers.ofString());
@@ -133,4 +134,5 @@ public class Webhook {
             throw new RuntimeException(e);
         }
     }
+
 }
