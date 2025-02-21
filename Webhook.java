@@ -14,7 +14,7 @@ public class Webhook {
         // System.out.println("llmImageResult = " + llmImageResult);
         // sendSlackMessage(title, llmResult, llmImageResult);
         String a = System.getenv("LLM_PROMPT");
-        sendSlackMessage1(a)
+        sendSlackMessage1(a);
     }
 
     public static String useLLMForImage(String prompt) {
