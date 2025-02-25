@@ -12,6 +12,7 @@
 ## 📜 코드 설명
 
 ### 1️⃣ LLM API 호출 (`useLLM` 메서드)
+
 - 사용자 입력을 LLM API로 전달하여 응답을 받음
 - 응답에서 `content` 값을 추출하여 반환
 
@@ -21,3 +22,6 @@
 
 ### 3️⃣ Slack 메시지 전송 (`sendSlackMessage` 메서드)
 - LLM 결과와 이미지 URL을 포함한 메시지를 Slack Webhook을 통해 전송
+
+## 실행 결과
+<img width="662" alt="스크린샷 2025-02-25 오후 5 49 58" src="https://github.com/user-attachments/assets/a6bab6ca-acf4-496a-9c5d-334716a29875" />
